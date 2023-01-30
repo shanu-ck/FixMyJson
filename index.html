@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fix My JSON</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <h5 class="card-header text-center">Fix My JSON</h5>
+            <div class="card-body">
+                <form id="mainForm">
+                    <div class="mb-3">
+                        <label for="baseJsonTextarea" class="form-label">Base JSON</label>
+                        <textarea class="form-control" id="baseJsonTextarea" name="baseJson" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="removeFieldsTextarea" class="form-label">Remove Fields Array</label>
+                        <textarea class="form-control" id="removeFieldsTextarea" name="removeFields"
+                            rows="3"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-secondary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+                <div class="mb-3" id="output" style="display: none">
+                    <label for="outputJsonTextarea" class="form-label">Output JSON</label>
+                    <textarea class="form-control" id="outputJsonTextarea" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-center">
+                Developed by <a href="https://github.com/shanu-ck" class="link-secondary" target="_blank">Shanu-CK</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("mainForm");
+        form.addEventListener("submit", function (event) {
+            // stop form submission
+            event.preventDefault();
+            console.log("form submitted");
+            // get input data
+            const baseJsonValue = event.target.baseJson.value;
+            const removeFieldsValue = event.target.removeFields.value;
+            // const fixedBadJson = baseJsonValue.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:\n?(.+)?/g, '"$2": $4');
+            // console.log(fixedBadJson);
+            let baseJson = JSON.parse(baseJsonValue.trim());
+            let removeFields = JSON.parse(removeFieldsValue.trim());
+            console.log(baseJson, removeFields);
+            // remove fixed fields
+            let output = baseJson;
+            delete (output.Id);
+            delete (output.attributes);
+            // remove fields which are present in fields array
+            for (const field of removeFields) {
+                delete (output[field]);
+            }
+            // set output to the textarea
+            const outputDiv = document.getElementById("output");
+            outputDiv.style.display = 'block';
+            const outputTextarea = document.getElementById("outputJsonTextarea");
+            const formattedJson = JSON.stringify(output, undefined, 4);
+            console.log(formattedJson);
+            outputTextarea.value = formattedJson;
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
