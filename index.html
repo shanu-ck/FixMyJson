@@ -33,7 +33,7 @@
                 </form>
                 <div class="mb-3" id="output" style="display: none">
                     <label for="outputJsonTextarea" class="form-label">Output JSON</label>
-                    <textarea class="form-control" id="outputJsonTextarea" rows="3"></textarea>
+                    <span class="textarea form-control" role="textbox" contenteditable id="outputJsonTextarea"></span>
                 </div>
             </div>
             <div class="card-footer text-muted text-center">
@@ -70,7 +70,7 @@
             const outputTextarea = document.getElementById("outputJsonTextarea");
             const formattedJson = JSON.stringify(output, undefined, 4);
             console.log(formattedJson);
-            outputTextarea.value = formattedJson;
+            outputTextarea.innerText = formattedJson;
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
